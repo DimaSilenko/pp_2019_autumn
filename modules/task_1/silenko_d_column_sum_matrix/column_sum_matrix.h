@@ -4,8 +4,8 @@
 
 #include <vector>
 
-std::vector <std::vector <int>> getRandomMatrixE(int n, int m); //Единичная
-std::vector <std::vector <int>> getRandomMatrixO(int n, int m); //Одинаковые строчки
+std::vector <std::vector <int>> getRandomMatrixE(int n, int m); // Only 1
+std::vector <std::vector <int>> getRandomMatrixO(int n, int m); // Eq rows
 
 std::vector <int> ColumnSumMatrix(const std::vector <std::vector <int>> &a, int n, int m);
 
