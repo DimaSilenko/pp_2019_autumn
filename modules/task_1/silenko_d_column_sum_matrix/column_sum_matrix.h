@@ -6,7 +6,7 @@
 #include <vector>
 
 std::vector <std::vector <int>> getRandomMatrixE(int n, int m);
-std::vector <std::vector <int>> getRandomMatrixO(int n, int m); 
+std::vector <std::vector <int>> getRandomMatrixO(int n, int m);
 
 std::vector <int> ColumnSumMatrix(const std::vector <std::vector <int>> &a, int n, int m);
 

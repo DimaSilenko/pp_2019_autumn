@@ -3,7 +3,7 @@
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
-#include "column_sum_matrix.h"
+#include "../../../modules/task_1/silenko_d_column_sum_matrix/column_sum_matrix.h"
 
 TEST(Column_sum_matrix_MPI, test_can_get_matrix_1) {
   std::vector <std::vector<int>> a;

@@ -7,7 +7,7 @@
 #include <numeric>
 #include <vector>
 #include <stdexcept>
-#include "column_sum_matrix.h"
+#include "../../../modules/task_1/silenko_d_column_sum_matrix/column_sum_matrix.h"
 
 std::vector<std::vector <int>> getRandomMatrixE(int n, int m) {
   std::vector <std::vector <int>> Matrix(n, std::vector <int>(m));
