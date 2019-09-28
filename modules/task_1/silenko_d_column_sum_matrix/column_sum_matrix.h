@@ -5,9 +5,9 @@
 
 #include <vector>
 
-std::vector <std::vector <int>> getRandomMatrixE(int n, int m); //  Only 1
-std::vector <std::vector <int>> getRandomMatrixO(int n, int m); //  Eq rows
+std::vector <std::vector <int>> getRandomMatrixE(int n, int m);
+std::vector <std::vector <int>> getRandomMatrixO(int n, int m); 
 
 std::vector <int> ColumnSumMatrix(const std::vector <std::vector <int>> &a, int n, int m);
 
-#endif  // MODULES_TASK_1_Silenko_D_COLUMN_SUM_MATRIX_COLUMN_SUM_MATRIX_H_
+#endif  // MODULES_TASK_1_SILENKO_D_COLUMN_SUM_MATRIX_COLUMN_SUM_MATRIX_H_
