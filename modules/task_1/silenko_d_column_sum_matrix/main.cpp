@@ -31,7 +31,7 @@ TEST(Column_sum_matrix_MPI, test_on_matrix_4_x_4_e) {
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   std::vector <int> sum = ColumnSumMatrix(a, 4, 4);
-  std::vector <int> res = { 4, 4, 4, 4 };
+  std::vector <int> res = {4, 4, 4, 4 };
   if (rank == 0) {
     EXPECT_EQ(res, sum);
   }
