@@ -74,8 +74,7 @@ std::vector <int> ColumnSumMatrix(const std::vector <std::vector <int>> &a, cons
       if (i % size != 0)
         MPI_Recv(&ans[i], 1, MPI_INT, i % size, 9, MPI_COMM_WORLD, &status);
     }
-  }
-  else {
+  } else {
     for (int i = rank; i < m; i += size) {
       MPI_Send(&ans[i], 1, MPI_INT, 0, 9, MPI_COMM_WORLD);
     }
