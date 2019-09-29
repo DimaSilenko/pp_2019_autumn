@@ -5,16 +5,6 @@
 #include <vector>
 #include "../../../modules/task_1/silenko_d_column_sum_matrix/column_sum_matrix.h"
 
-TEST(Column_sum_matrix_MPI, test_can_get_matrix_1) {
-  std::vector <std::vector<int>> a;
-  EXPECT_NO_THROW(a == getRandomMatrixE(30, 30));
-}
-
-TEST(Column_sum_matrix_MPI, test_can_get_matrix_2) {
-  std::vector <std::vector<int>> a;
-  EXPECT_NO_THROW(a == getRandomMatrixO(80, 80));
-}
-
 TEST(Column_sum_matrix_MPI, test_on_matrix_2_x_2_o) {
   std::vector <std::vector<int>> a = getRandomMatrixO(2, 2);
   int rank;
