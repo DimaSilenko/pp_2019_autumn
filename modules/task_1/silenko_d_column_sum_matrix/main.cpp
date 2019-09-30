@@ -5,6 +5,22 @@
 #include <vector>
 #include "../../../modules/task_1/silenko_d_column_sum_matrix/column_sum_matrix.h"
 
+TEST(Column_sum_matrix_MPI, test_on_wrong_matrix_1) {
+  std::vector <std::vector<int>> a = getRandomMatrixE(1, 1);
+  std::vector <int> res;
+  EXPECT_ANY_THROW(res = ColumnSumMatrix(a, 1, 2));
+}
+
+TEST(Column_sum_matrix_MPI, test_on_wrong_matrix_2) {
+  EXPECT_ANY_THROW(std::vector <std::vector<int>> a = getRandomMatrixE(0, 1));
+}
+
+TEST(Column_sum_matrix_MPI, test_on_wrong_matrix_3) {
+  std::vector <std::vector<int>> a = getRandomMatrixE(1, 2);
+  std::vector <int> res;
+  EXPECT_ANY_THROW(res = ColumnSumMatrix(a, 0, 2));
+}
+
 TEST(Column_sum_matrix_MPI, test_on_matrix_2_x_2_o) {
   std::vector <std::vector<int>> a = getRandomMatrixO(2, 2);
   int rank;
