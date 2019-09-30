@@ -47,7 +47,7 @@ std::vector <std::vector <int>> TransposedMatrix(const std::vector <std::vector 
   return transposed;
 }
 
-std::vector <int> ColumnSumMatrix(const std::vector <std::vector <int>> &a, const int n, const int m) {
+std::vector <int> ColumnSumMatrix(const std::vector <std::vector <int>> &a, int n, int m) {
   int size, rank;
   MPI_Comm_size(MPI_COMM_WORLD, &size);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -56,7 +56,7 @@ std::vector <int> ColumnSumMatrix(const std::vector <std::vector <int>> &a, cons
   int error;
 
   if (rank == 0) {
-    if (a.size() != n || a[0].size() != m) {
+    if (a.size() != (size_t)n || a[0].size() != (size_t)m) {
       error = -1;
     } else if (n <= 0) {
       error = -2;
