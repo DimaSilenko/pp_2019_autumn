@@ -53,25 +53,25 @@ std::vector <int> ColumnSumMatrix(const std::vector <std::vector <int>> &a, int 
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   std::vector <int> ans(m);
   MPI_Status status;
-  int error;
+  int errors;
 
   if (rank == 0) {
     if (a.size() != (size_t)n || a[0].size() != (size_t)m) {
-      error = -1;
+      errors = -1;
     } else if (n <= 0) {
-      error = -2;
+      errors = -2;
     } else if (m <= 0) {
-      error = -3;
+      errors = -3;
     } else {
-      error = 0;
+      errors = 0;
     }
     for (int i = 1; i < size; ++i)
-      MPI_Send(&error, 1, MPI_INT, i, 8, MPI_COMM_WORLD);
+      MPI_Send(&errors, 1, MPI_INT, i, 8, MPI_COMM_WORLD);
   } else {
-    MPI_Recv(&error, 1, MPI_INT, 0, 8, MPI_COMM_WORLD, &status);
+    MPI_Recv(&errors, 1, MPI_INT, 0, 8, MPI_COMM_WORLD, &status);
   }
 
-  switch (error) {
+  switch (errors) {
   case 0:
     break;
   case -1:
