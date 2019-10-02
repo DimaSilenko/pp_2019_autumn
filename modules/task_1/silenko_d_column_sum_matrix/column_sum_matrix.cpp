@@ -9,54 +9,49 @@
 #include <stdexcept>
 #include "../../../modules/task_1/silenko_d_column_sum_matrix/column_sum_matrix.h"
 
-std::vector<std::vector <int>> getRandomMatrixE(const int n, const int m) {
+std::vector<int> getRandomMatrixE(const int n, const int m) {
   if (n <= 0) {
     throw "Wrong rows";
   } else if (m <= 0) {
     throw "wrong columns";
   }
-  std::vector <std::vector <int>> Matrix(n, std::vector <int>(m));
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < m; j++) {
-      Matrix[i][j] = 1;
-    }
+  std::vector <int> Matrix(n * m);
+  for (int i = 0; i < n*m; i++) {
+    Matrix[i] = 1;
   }
   return Matrix;
 }
 
-std::vector<std::vector <int>> getRandomMatrixO(const int n, const int m) {
+std::vector<int> getRandomMatrixO(const int n, const int m) {
   if (n <= 0) {
     throw "Wrong rows";
   } else if (m <= 0) {
     throw "wrong columns";
   }
-  std::vector <std::vector <int>> Matrix(n, std::vector <int>(m));
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < m; j++) {
-      Matrix[i][j] = j + 1;
+  std::vector <int> Matrix(n * m);
+  int j = 1;
+  int k = 0;
+  for (int i = 0; i < n*m; i++) {
+    if ((j - 1) % (n) == 0) {
+      k++;
     }
+    Matrix[i] = k;
+    j++;
   }
   return Matrix;
 }
 
-std::vector <std::vector <int>> TransposedMatrix(const std::vector <std::vector <int>> &a, const int n, const int m) {
-  std::vector <std::vector <int>> transposed(m, std::vector <int>(n));
-  for (int i = 0; i < n; i++)
-    for (int j = 0; j < m; j++)
-      transposed[j][i] = a[i][j];
-  return transposed;
-}
-
-std::vector <int> ColumnSumMatrix(const std::vector <std::vector <int>> &a, int n, int m) {
+std::vector <int> ColumnSumMatrix(const std::vector <int> &a, int n, int m) {
   int size, rank;
   MPI_Comm_size(MPI_COMM_WORLD, &size);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  std::vector <int> ans(m);
   MPI_Status status;
   int errors;
+  const int delta = m / size;
+  const int ost = m % size;
 
   if (rank == 0) {
-    if (a.size() != (size_t)n || a[0].size() != (size_t)m) {
+    if (a.size() != (size_t)n * (size_t)m) {
       errors = -1;
     } else if (n <= 0) {
       errors = -2;
@@ -65,7 +60,7 @@ std::vector <int> ColumnSumMatrix(const std::vector <std::vector <int>> &a, int 
     } else {
       errors = 0;
     }
-    for (int i = 1; i < size; ++i)
+    for (int i = 1; i < size; i++)
       MPI_Send(&errors, 1, MPI_INT, i, 8, MPI_COMM_WORLD);
   } else {
     MPI_Recv(&errors, 1, MPI_INT, 0, 8, MPI_COMM_WORLD, &status);
@@ -82,40 +77,41 @@ std::vector <int> ColumnSumMatrix(const std::vector <std::vector <int>> &a, int 
     throw std::runtime_error("Nubmer of columns 0");
   }
 
-  if (rank == 0) {
-    std::vector <std::vector <int>> transposed(m, std::vector <int>(n));
-    transposed = TransposedMatrix(a, n, m);
-    for (int i = 0; i < m; i++) {
-      if (i % size) {
-        MPI_Send(&transposed[i][0], n, MPI_INT, i % size, 5, MPI_COMM_WORLD);
-      }
-    }
-    for (int i = 0; i < m; i += size) {
-      for (int j = 0; j < n; j++) {
-        ans[i] += transposed[i][j];
-      }
-    }
-  }
-  std::vector <int> b(n);
-  if (rank != 0) {
-    for (int i = rank; i < m; i += size) {
-      MPI_Recv(&b[0], n, MPI_INT, 0, 5, MPI_COMM_WORLD, &status);
-      for (int j = 0; j < n; j++)
-        ans[i] += b[j];
+  if ((rank == 0) && (delta > 0)) {
+    for (int i = 1; i < size; i++) {
+        MPI_Send(&a[n * ost] + i * n * delta, n * delta, MPI_INT, i, 5, MPI_COMM_WORLD);
     }
   }
 
-  MPI_Barrier(MPI_COMM_WORLD);
-
+  std::vector <int> b(delta * n, 0);
   if (rank == 0) {
-    for (int i = 0; i < m; i++) {
-      if (i % size != 0)
-        MPI_Recv(&ans[i], 1, MPI_INT, i % size, 9, MPI_COMM_WORLD, &status);
+    b = std::vector <int>(a.begin(), a.begin() + ost * n + delta * n);
+  } else {
+    if (delta > 0) {
+      MPI_Recv(&b[0], delta * n, MPI_INT, 0, 5, MPI_COMM_WORLD, &status);
+    }
+  }
+
+  int vec = b.size() / n;
+  std::vector<int> sum(vec, 0);
+  for (int i = 0; i < vec; i++)
+    for (int j = i * n; j < (i + 1) * n; j++)
+      sum[i] += b[j];
+
+  std::vector<int> ans(m, 0);
+  if (rank == 0) {
+    for (int i = 0; i < vec; i++) {
+      ans[i] = sum[i];
+    }
+    if (delta > 0) {
+      for (int i = 1; i < size; i++) {
+        MPI_Recv(&ans[vec] + (i - 1) * delta, delta, MPI_INT, i, 9, MPI_COMM_WORLD, &status);
+      }
     }
   } else {
-    for (int i = rank; i < m; i += size) {
-      MPI_Send(&ans[i], 1, MPI_INT, 0, 9, MPI_COMM_WORLD);
-    }
+    if (delta > 0)
+      MPI_Send(&sum[0], delta, MPI_INT, 0, 9, MPI_COMM_WORLD);
   }
+
   return ans;
 }
