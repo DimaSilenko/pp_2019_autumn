@@ -16,17 +16,17 @@ double** getRandomMas(const int n, const int m) {
     throw "wrong columns";
   }
   double** mas = new double*[n];
+  std::mt19937 seed;
   for (int i = 0; i < n; i++)
     mas[i] = new double[m];
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < m; j++)
-      mas[i][j] = rand() / RAND_MAX;
+      mas[i][j] = seed() / RAND_MAX;
   }
   return mas;
 }
 
-double** ImageSmoothing(double** mas, const int n, const int m)
-{
+double** ImageSmoothing(double** mas, const int n, const int m) {
   int size, rank;
   MPI_Comm_size(MPI_COMM_WORLD, &size);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -49,8 +49,7 @@ double** ImageSmoothing(double** mas, const int n, const int m)
 
   if (size == 1) {
     extra = 0;
-  }
-  else {
+  } else {
     extra = 1;
   }
 
@@ -65,7 +64,8 @@ double** ImageSmoothing(double** mas, const int n, const int m)
     for (int i = 1; i < size; i++) {
       if (i == size - 1)
         extra = 0;
-      MPI_Send(&ssend[m*(delta + ost - 1)] + (i-1) * delta * m, m*(delta + extra + 1), MPI_DOUBLE, i, 1, MPI_COMM_WORLD);
+      MPI_Send(&ssend[m*(delta + ost - 1)] + (i-1) * delta * m,
+        m*(delta + extra + 1), MPI_DOUBLE, i, 1, MPI_COMM_WORLD);
     }
     delete[] ssend;
   }
@@ -111,8 +111,7 @@ double** ImageSmoothing(double** mas, const int n, const int m)
         prom_res[i][j] = middle / count;
       }
     delete[] workmas;
-  }
-  else {
+  } else {
     if (f == 0) {
       double* b = new double[m*(delta + 2)];
       if (rank == size - 1)
@@ -133,7 +132,6 @@ double** ImageSmoothing(double** mas, const int n, const int m)
       prom_res = new double*[delta];
       for (int i = 0; i < delta; i++)
         prom_res[i] = new double[m];
-      
       for (int i = 1; i <= delta; i++)
         for (int j = 0; j < m; j++) {
           int count = 0;
@@ -195,12 +193,10 @@ double** ImageSmoothing(double** mas, const int n, const int m)
     }
     delete[] prom_res;
     return res;
-  }
-  else {
+  } else {
     if (rank == 0) {
       return prom_res;
-    }
-    else {
+    } else {
       return NULL;
     }
   }

@@ -207,7 +207,6 @@ TEST(image_smoothing_mpi, test_on_my_rand_matrix) {
     }
 
   double** res;
-  
   res = ImageSmoothing(mas, n, m);
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
