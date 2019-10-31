@@ -35,13 +35,11 @@ double** ImageSmoothing(double** mas, const int n, const int m) {
   int ost;
   int f = 0;
   int extra;
-  int realsize = 0;
   ost = n % size;
 
   if (n < size) {
     ost = 0;
     f = -1;
-    realsize = size;
     size = 1;
   }
 
