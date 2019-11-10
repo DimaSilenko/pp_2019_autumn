@@ -213,6 +213,7 @@ TEST(image_smoothing_mpi, test_on_my_rand_matrix) {
 
   double** res;
   res = ImageSmoothing(mas, n, m);
+
   if (rank == 0) {
     for (int i = 0; i < n; i++)
       for (int j = 0; j < m; j++)
