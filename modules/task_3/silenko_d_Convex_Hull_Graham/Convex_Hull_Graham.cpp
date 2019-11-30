@@ -25,9 +25,9 @@ double** getRandomMas(int count) {
 }
 
 bool SravnenieMore(int num, double* _mid, double* fi, double* r) {
-  if (fi[num] > _mid[0])
+  if (fi[num] > _mid[0]) {
     return true;
-  else if (fi[num] == _mid[0]) {
+  } else if (fi[num] == _mid[0]) {
     if (r[num] > _mid[1])
       return true;
   }
@@ -35,9 +35,9 @@ bool SravnenieMore(int num, double* _mid, double* fi, double* r) {
 }
 
 bool SravnenieLess(int num, double* _mid, double* fi, double* r) {
-  if (fi[num] < _mid[0])
+  if (fi[num] < _mid[0]) {
     return true;
-  else if (fi[num] == _mid[0]) {
+  } else if (fi[num] == _mid[0]) {
     if (r[num] < _mid[1])
       return true;
   }
@@ -91,9 +91,9 @@ double det(double* p1, double* p2, double* p3, int size) {
 std::stack<double*> ConvSort(double** mas, const int count) {
   std::stack<double*> res;
   std::stack<double*> prom_res;
-  if (count == 1)
+  if (count == 1) {
     res.push(mas[0]);
-  else if (count == 2) {
+  } else if (count == 2) {
     res.push(mas[0]);
     res.push(mas[1]);
   } else {
@@ -157,7 +157,6 @@ std::stack<double*> ConvSort(double** mas, const int count) {
           r[i] = sqrt((mas[i][0] * mas[i][0]) + (mas[i][1] * mas[i][1]));
           fi[i] = atan(mas[i][1] / mas[i][0]);
         }
-
       }
     }
 
@@ -194,17 +193,16 @@ std::stack<double*> ConvSort(double** mas, const int count) {
             prom_res.push(mas[i]);
             break;
           } else {
-            if (prom_res.size() >= 3)
+            if (prom_res.size() >= 3) {
               prom_res.pop();
-            else {
+            } else {
               prom_res.pop();
               prom_res.push(mas[i]);
               break;
             }
           }
         }
-      }
-      
+      }      
       if (f == 0) {
         int s;
         for (int i = 1; i < size; i++) {
@@ -266,11 +264,12 @@ std::stack<double*> ConvSort(double** mas, const int count) {
         temp = NULL;
       }
 
-    } else {
+    }
+    else {
       if (f == 0) {
         prom_res.push(mas[delta*rank + ost]);
-        prom_res.push(mas[delta*rank + ost+1]);
-        for (int i = delta * rank + ost +2; i < delta*rank + ost + delta; i++) {
+        prom_res.push(mas[delta*rank + ost + 1]);
+        for (int i = delta * rank + ost + 2; i < delta*rank + ost + delta; i++) {
           double* last;
           double* beforelast;
           while (1) {
@@ -283,9 +282,11 @@ std::stack<double*> ConvSort(double** mas, const int count) {
             if (d > 0) {
               prom_res.push(mas[i]);
               break;
-            } else {
-              if (prom_res.size() >= 3)
+            }
+            else {
+              if (prom_res.size() >= 3) {
                 prom_res.pop();
+              }
               else {
                 prom_res.pop();
                 prom_res.push(mas[i]);
@@ -307,7 +308,6 @@ std::stack<double*> ConvSort(double** mas, const int count) {
         MPI_Send(&buf[0], 2 * s, MPI_DOUBLE, 0, 9, MPI_COMM_WORLD);
       }
     }
-
   }
   return res;
 }

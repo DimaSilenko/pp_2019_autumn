@@ -5,7 +5,6 @@
 #include <stack>
 #include <Windows.h>
 #include <fstream>
-#include <conio.h>
 #include "../../../modules/task_3/silenko_d_Convex_Hull_Graham/Convex_Hull_Graham.h"
 
 TEST(Convex_Hull_Graham_mpi, test_on_one_point) {
@@ -256,7 +255,6 @@ TEST(Convex_Hull_Graham_mpi, test_on_my_random_points) {
   double** mas = new double*[count];
   for (int i = 0; i < count; i++)
     mas[i] = new double[2];
-  
   mas = getRandomMas(count);
   double** newmas = new double*[count];
   for (int i = 0; i < count; i++) {
@@ -334,9 +332,9 @@ TEST(Convex_Hull_Graham_mpi, test_on_my_random_points) {
           tmp_result.push(mas[i]);
           break;
         } else {
-          if (tmp_result.size() >= 3)
+          if (tmp_result.size() >= 3) {
             tmp_result.pop();
-          else {
+          } else {
             tmp_result.pop();
             tmp_result.push(mas[i]);
             break;
@@ -377,8 +375,6 @@ TEST(Convex_Hull_Graham_mpi, test_on_my_random_points) {
   }
   delete[] tmp;
 }
-
-using namespace std;
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
