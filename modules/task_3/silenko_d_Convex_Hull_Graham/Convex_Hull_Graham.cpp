@@ -202,7 +202,7 @@ std::stack<double*> ConvSort(double** mas, const int count) {
             }
           }
         }
-      }      
+      }
       if (f == 0) {
         int s;
         for (int i = 1; i < size; i++) {
@@ -263,9 +263,7 @@ std::stack<double*> ConvSort(double** mas, const int count) {
         prom_res.pop();
         temp = NULL;
       }
-
-    }
-    else {
+    } else {
       if (f == 0) {
         prom_res.push(mas[delta*rank + ost]);
         prom_res.push(mas[delta*rank + ost + 1]);
@@ -282,12 +280,10 @@ std::stack<double*> ConvSort(double** mas, const int count) {
             if (d > 0) {
               prom_res.push(mas[i]);
               break;
-            }
-            else {
+            } else {
               if (prom_res.size() >= 3) {
                 prom_res.pop();
-              }
-              else {
+              } else {
                 prom_res.pop();
                 prom_res.push(mas[i]);
                 break;
