@@ -3,8 +3,7 @@
 #include <mpi.h>
 #include <iostream>
 #include <random>
-#include <ctime>
-#include <numeric>
+#include <cmath>
 #include <stack>
 #include <stdexcept>
 #include "../../../modules/task_3/silenko_d_Convex_Hull_Graham/Convex_Hull_Graham.h"
@@ -148,13 +147,13 @@ std::stack<double*> ConvSort(double** mas, const int count) {
 
     if (rank == 0) {
       for (int i = 1; i < delta + ost; i++) {
-        r[i] = sqrt((mas[i][0] * mas[i][0]) + (mas[i][1] * mas[i][1]));
+        r[i] = pow((mas[i][0] * mas[i][0]) + (mas[i][1] * mas[i][1]), 0.5);
         fi[i] = atan(mas[i][1] / mas[i][0]);
       }
     } else {
       if (f == 0) {
         for (int i = delta*rank+ost; i < delta*rank + delta + ost; i++) {
-          r[i] = sqrt((mas[i][0] * mas[i][0]) + (mas[i][1] * mas[i][1]));
+          r[i] = pow((mas[i][0] * mas[i][0]) + (mas[i][1] * mas[i][1]), 0.5);
           fi[i] = atan(mas[i][1] / mas[i][0]);
         }
       }
