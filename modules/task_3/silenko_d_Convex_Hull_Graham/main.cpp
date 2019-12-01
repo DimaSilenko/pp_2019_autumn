@@ -3,8 +3,6 @@
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <stack>
-#include <Windows.h>
-#include <fstream>
 #include "../../../modules/task_3/silenko_d_Convex_Hull_Graham/Convex_Hull_Graham.h"
 
 TEST(Convex_Hull_Graham_mpi, test_on_one_point) {
