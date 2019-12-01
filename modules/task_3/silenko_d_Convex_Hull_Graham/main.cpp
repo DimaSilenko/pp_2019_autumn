@@ -2,6 +2,7 @@
 
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
+#include <math.h>
 #include <stack>
 #include "../../../modules/task_3/silenko_d_Convex_Hull_Graham/Convex_Hull_Graham.h"
 
@@ -308,7 +309,7 @@ TEST(Convex_Hull_Graham_mpi, test_on_my_random_points) {
     r[0] = 0;
     fi[0] = 0;
     for (int i = 1; i < count; i++) {
-      r[i] = sqrt((mas[i][0] * mas[i][0]) + (mas[i][1] * mas[i][1]));
+      r[i] = pow((mas[i][0] * mas[i][0]) + (mas[i][1] * mas[i][1]), 0.5);
       fi[i] = atan(mas[i][1] / mas[i][0]);
     }
 
